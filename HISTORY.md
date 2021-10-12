@@ -5,6 +5,10 @@
 - Update pipelines to use Azure Key Vault for secrets
 - Changed config.ini into an appsettings.json file
 
+## 1.0.5 / 2021-09-29
+
+- Cleaned up gitignore
+
 ## 1.0.4 / 2021-07-15
 
 - Updated dependencies

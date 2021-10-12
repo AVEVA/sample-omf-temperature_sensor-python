@@ -29,7 +29,7 @@ variables:
   - name: analysisProject
     value: OMF_Temp_Python
 
-obs:
+jobs:
   - job: Tests_OCS
     pool:
       name: 00-OSIManaged-Containers

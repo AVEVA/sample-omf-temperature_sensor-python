@@ -23,8 +23,10 @@ TYPE_ID = 'Temperature.Float'
 CONTAINER_ID = 'Sample.Script.SL6658.Temperature'
 
 # List of possible endpoint types
+# NOTE: OCS endpoint type is deprecated as OSIsoft Cloud Services has now been migrated to AVEVA Data Hub, use ADH type instead.
 class EndpointTypes(enum.Enum):
     ADH = 'ADH'
+    OCS = 'OCS'
     EDS = 'EDS'
     PI = 'PI'
 
@@ -37,7 +39,7 @@ def get_token(endpoint):
 
     endpoint_type = endpoint["EndpointType"]
     # return an empty string if the endpoint is not an ADH type
-    if endpoint_type != EndpointTypes.ADH:
+    if endpoint_type != EndpointTypes.ADH and endpoint_type != EndpointTypes.OCS:
         return ''
 
     if (('expiration' in endpoint) and (endpoint["expiration"] - time.time()) > 5 * 60):
@@ -100,7 +102,7 @@ def send_message_to_omf_endpoint(endpoint, message_type, message_omf_json, actio
     endpoints_type = endpoint["EndpointType"]
     response = {}
     # If the endpoint is ADH
-    if endpoints_type == EndpointTypes.ADH:
+    if endpoints_type == EndpointTypes.ADH or endpoints_type == EndpointTypes.OCS:
         response = requests.post(
             endpoint["OmfEndpoint"],
             headers=msg_headers,
@@ -157,7 +159,7 @@ def get_headers(endpoint, compression='', message_type='', action=''):
         msg_headers["compression"] = 'gzip'
 
     # If the endpoint is ADH
-    if endpoint_type == EndpointTypes.ADH:
+    if endpoint_type == EndpointTypes.ADH or endpoint_type == EndpointTypes.OCS:
         msg_headers["Authorization"] = f'Bearer {get_token(endpoint)}'
     # If the endpoint is PI
     elif endpoint_type == EndpointTypes.PI:
@@ -421,7 +423,7 @@ def get_appsettings():
         endpoint_type = endpoint["EndpointType"]
 
         # If the endpoint is ADH
-        if endpoint_type == EndpointTypes.ADH:
+        if endpoint_type == EndpointTypes.ADH or endpoint_type == EndpointTypes.OCS:
             base_endpoint = f'{endpoint["Resource"]}/api/{endpoint["ApiVersion"]}' + \
                 f'/tenants/{endpoint["TenantId"]}/namespaces/{endpoint["NamespaceId"]}'
 

@@ -83,8 +83,8 @@ jobs:
 
   - job: Tests_PI
     pool:
-      name: 00-OSIManaged-Test
-      demands: COMPUTERNAME -equals $(buildAgent)
+      name: 00-OSIManaged-Containers
+      demands: Agent.OS -equals Linux
     variables:
       - name: Endpoints.0.Selected
         value: false

@@ -1,5 +1,10 @@
 # Version History
 
+## 1.3.0 / 2025-02-10
+
+- Update to OMF 1.2
+- Changes from ADH to Cds
+
 ## 1.2.9 / 2023-10-13
 
 - Migrate Pipelines
